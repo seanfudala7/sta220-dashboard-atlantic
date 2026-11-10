@@ -21,9 +21,20 @@ budget_per_student <- read_excel('spending_per_student.xlsx',
 )
 
 # Restrict to Atlantic County high schools
-budget_per_student_clean <- budget_per_student |>
+budget_per_student_atl <- budget_per_student |>
   select("county", "district", "district_code", "per_student_total") |>
   filter(county == "Atlantic")
+
+
+dim(budget_per_student_atl) # 22 rows, 4 columns
+names(budget_per_student_atl)
+summary(budget_per_student_atl)
+
+# Change per_student_total into type numeric
+budget_per_student_atl$per_student_total <- as.numeric(budget_per_student_atl$per_student_total)
+
+# Check
+summary(budget_per_student_atl$per_student_total)
 
 
 

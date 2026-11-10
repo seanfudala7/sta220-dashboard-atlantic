@@ -6,12 +6,12 @@
 ######################### Part 2: Visualization ###########################
 ###########################################################################
 
-ggplot(budget_per_student_clean, aes(x = district, y = per_student_total)) + 
+ggplot(budget_per_student_clean, aes(x = per_student_total, y = district)) + 
   geom_col() + 
   labs(title = "Budget per student by Atlantic County school district",
-       subtitle = "Bruh",
+       subtitle = "Each school district in Atlantic County is represented by a bar",
        x = "district",
        y = "calculated total expenses per student ($)",
-       caption = "Source: <Source>"
+       caption = "Source: NJ Department of Education, 2024"
   ) + 
-  geom_hline(yintercept = 30, linetype = "dashed")
+  geom_vline(xintercept = 30, linetype = "dashed")
