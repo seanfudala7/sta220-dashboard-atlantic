@@ -22,3 +22,7 @@ hs_district <- tribble(
   "Oakcrest", "Greater Egg Harbor Reg",
   "Pleasantville", "Pleasantville City"
 )
+
+
+# Create town to district lookup table by merging the high school to district table using nj_towns and nj_districts
+
