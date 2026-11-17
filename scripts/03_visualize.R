@@ -10,7 +10,7 @@ library(tidyverse)
 
 # Visual 1: Bar chart of budget_per_student 
 
-ggplot(budget_per_student_clean, aes(x = per_student_total, y = fct_reorder(district, per_student_total))) + 
+fig_01 <- ggplot(budget_per_student_clean, aes(x = per_student_total, y = fct_reorder(district, per_student_total))) + 
   geom_col() + 
   geom_vline(xintercept = benchmark_bps, linetype = "dashed") +
   labs(title = "Budget per student by Atlantic County school district",
@@ -19,6 +19,8 @@ ggplot(budget_per_student_clean, aes(x = per_student_total, y = fct_reorder(dist
        y = "district",
        caption = "Source: NJ Department of Education, 2024"
   )
+print(fig_01)
+ggsave("output/fig01_bps_bar.png", fig_01, width = 6.75, height = 4.85)
   
 # Visual 2: Atlantic County map
 
@@ -35,9 +37,16 @@ atlantic_towns <- nj_towns |>
   filter(COUNTYFP == "001")
 
 ### UNCOMMENT AFTER CREATING TOWN TO DISTRICT LOOKUP TABLE
-# ggplot(atlantic_towns) +
+# fig_02 <- ggplot(atlantic_towns) +
 #  geom_sf(aes(fill = NAME), colour = "white") + 
+#  labs(title = "Title",
+#       subtitle = "Subtitle",
+#       caption = "Source: "
+#  )
+# ggsave("output/fig02_atlmap.png", fig_01)
 
+
+# Example reference
 #ggplot(nj12_vote) +
 #  geom_sf(aes(fill = margin_pct), colour = "white") +
 #  scale_fill_gradient2(low = "#b2182b", mid = "white", high = "#2166ac", midpoint = 0) +

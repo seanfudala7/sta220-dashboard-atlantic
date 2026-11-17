@@ -11,12 +11,13 @@
 library(tidyverse)
 library(readxl)
 library(shiny)
-setwd("~/GitHub/sta220-dashboard-atlantic/sta220-dashboard-atlantic/data")
+library(sf)
+library(tigris)
 
 # Import data -------------------------------------------------------------
 
 # Data source 1: District spending per pupil for all NJ district
-budget_per_student <- read_excel('spending_per_student.xlsx', 
+budget_per_student <- read_excel('data/spending_per_student.xlsx', 
                                  skip = 2,
                                  col_names = c("county", "district", "district_code","expense_per_stu","outlay_per_stu","grant_per_stu","food_per_stu","bonds_per_stu","sda_per_stu","total_per_stu","daily_enrollment","per_student_total")
 )
@@ -38,8 +39,10 @@ budget_per_student_clean$per_student_total <- as.numeric(budget_per_student_clea
 summary(budget_per_student_clean$per_student_total)
 
 # Benchmark avg. per student in Atlantic County
-
 benchmark_bps <- mean(budget_per_student_clean$per_student_total)
+
+# Save cleaned data to app
+write_csv(budget_per_student_clean, "app/data/budget_per_student.csv")
 
 
 # Data source 2: U.S. Census Bureau, cartographic boundary files (1:500,000). tigris downloads them.
@@ -63,12 +66,13 @@ dim(nj_towns)
 dim(nj_districts)
 
 # Save each one as a GeoPackage (.gpkg) to keep the shapes
-st_write(nj_counties, "boundaries/nj_counties.gpkg", delete_dsn = TRUE, quiet = TRUE)
+st_write(nj_counties, "data/boundaries/nj_counties.gpkg", delete_dsn = TRUE, quiet = TRUE)
 
-st_write(nj_towns, "boundaries/nj_towns.gpkg", delete_dsn = TRUE, quiet = TRUE)
+st_write(nj_towns, "data/boundaries/nj_towns.gpkg", delete_dsn = TRUE, quiet = TRUE)
 
-st_write(nj_districts, "boundaries/nj_school_districts.gpkg", delete_dsn = TRUE, quiet = TRUE)
+st_write(nj_districts, "data/boundaries/nj_school_districts.gpkg", delete_dsn = TRUE, quiet = TRUE)
 
-# Data source 3: Salaries for each school - NEED OPRA REQUEST
+
+# Data source 3: Salaries for each school
 
 
