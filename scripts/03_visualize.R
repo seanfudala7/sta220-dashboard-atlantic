@@ -31,19 +31,21 @@ library(tigris)
 
 # Every town in New Jersey, already downloaded and saved in data/boundaries/
 # see 01_import for creation of nj_towns.gpkg 
-nj_towns <- read_sf("boundaries/nj_towns.gpkg")
+nj_towns <- read_sf("data/boundaries/nj_towns.gpkg")
 
 atlantic_towns <- nj_towns |>
   filter(COUNTYFP == "001")
 
 ### UNCOMMENT AFTER CREATING TOWN TO DISTRICT LOOKUP TABLE
-# fig_02 <- ggplot(atlantic_towns) +
-#  geom_sf(aes(fill = NAME), colour = "white") + 
+#fig_02 <- ggplot(atlantic_towns) +
+#  geom_sf(aes(fill = STATEFP), colour = "white") + 
 #  labs(title = "Title",
 #       subtitle = "Subtitle",
 #       caption = "Source: "
-#  )
-# ggsave("output/fig02_atlmap.png", fig_01)
+#  ) +
+#  theme_void()
+#print(fig_02)
+#ggsave("output/fig02_atlmap.png", fig_02, width = 6.75, height = 4.85)
 
 
 # Example reference
