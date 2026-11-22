@@ -21,22 +21,22 @@ benchmark_bps <- mean(budget_per_student$per_student_total)
 
 ui <- fluidPage(
   
-  titlePanel("your title"),
-  p("For: who is making the decision"),
-  p("The decision: the one decision this dashboard helps with"),
+  titlePanel("Go back to school!"),
+  p("For newly certified high school teachers in the Atlantic County region"),
+  p("The decision: what is the ideal school to be placed in?"),
   
   selectInput(inputId = "pick", label = "Pick one:", choices = c("choice 1", "choice 2")),
   
-  h3("Figure 1. title"),
+  h3("Figure 1. Budget per student by school district"),
   plotOutput(outputId = "fig_1"),
-  p("a sentence or two saying what the figure shows."),
+  p("Bar chart displaying budget per student for every school district in Atlantic County. From the NJ Department of Education, 2024."),
   
-  h3("Figure 2. title"),
+  h3("Figure 2. Starting salary by school district"),
   plotOutput(outputId = "fig_2"),
-  p("a sentence or two saying what the figure shows."),
+  p("Map of Atlantic County town boundaries. Labeled with salaries of corresponding high school school district."),
   
   h3("What this dashboard cannot tell you"),
-  p("the limits of your data.")
+  p("Limits.")
   
 )
 
@@ -61,7 +61,17 @@ server <- function(input, output) {
   
   output$fig_2 <- renderPlot({
     
-    ggplot()     # replace with your code for Figure 2
+    ### UNCOMMENT AFTER CREATING TOWN TO DISTRICT LOOKUP TABLE
+    #fig_02 <- ggplot(atlantic_towns) +
+    #  geom_sf(aes(fill = ALAND), colour = "white") + 
+    #  scale_fill_gradient(low = "white", high = "blue") +
+    #  labs(title = "Starting salary for instructional staff by high school",
+    #     subtitle = "Subtitle",
+    #     caption = "Source: My source"
+    # ) +
+    #  theme_void()
+    #print(fig_02)
+    #ggsave("output/fig02_atlmap.png", fig_02, width = 6.75, height = 4.85)
     
   })
   

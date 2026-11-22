@@ -37,24 +37,13 @@ atlantic_towns <- nj_towns |>
   filter(COUNTYFP == "001")
 
 ### UNCOMMENT AFTER CREATING TOWN TO DISTRICT LOOKUP TABLE
-#fig_02 <- ggplot(atlantic_towns) +
-#  geom_sf(aes(fill = STATEFP), colour = "white") + 
-#  labs(title = "Title",
-#       subtitle = "Subtitle",
-#       caption = "Source: "
-#  ) +
-#  theme_void()
-#print(fig_02)
-#ggsave("output/fig02_atlmap.png", fig_02, width = 6.75, height = 4.85)
-
-
-# Example reference
-#ggplot(nj12_vote) +
-#  geom_sf(aes(fill = margin_pct), colour = "white") +
-#  scale_fill_gradient2(low = "#b2182b", mid = "white", high = "#2166ac", midpoint = 0) +
-#  labs(
-#    title = "Watson Coleman won Trenton by 70 points; Mayfield won Helmetta by 25",
-#    fill = "Margin\n(points)",
-#    caption = "Positive: Watson Coleman ahead.\nSource: NJ Division of Elections, 2024 U.S. House, 12th District"
-#  ) +
-#  theme_void()
+fig_02 <- ggplot(atlantic_master) +
+  geom_sf() #aes(fill = STATEFP.x), colour = "white") + 
+  #scale_fill_gradient(low = "white", high = "blue") +
+  labs(title = "Starting salary for instructional staff by high school",
+     subtitle = "Subtitle",
+     caption = "Source: My source"
+  ) +
+  theme_void()
+print(fig_02)
+ggsave("output/fig02_atlmap.png", fig_02, width = 6.75, height = 4.85)

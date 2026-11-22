@@ -65,6 +65,11 @@ dim(nj_counties)
 dim(nj_towns)
 dim(nj_districts)
 
+# Filter to Atlantic County towns
+
+atlantic_towns <- nj_towns |>
+  filter(COUNTYFP == "001") 
+
 # Save each one as a GeoPackage (.gpkg) to keep the shapes
 st_write(nj_counties, "data/boundaries/nj_counties.gpkg", delete_dsn = TRUE, quiet = TRUE)
 
@@ -73,6 +78,7 @@ st_write(nj_towns, "data/boundaries/nj_towns.gpkg", delete_dsn = TRUE, quiet = T
 st_write(nj_districts, "data/boundaries/nj_school_districts.gpkg", delete_dsn = TRUE, quiet = TRUE)
 
 
-# Data source 3: Salaries for each school
+# Data source 3: Town to high school and district look-up table - handwritten Excel, see README for sources
+town_district_lookup <- read_excel("data/town_district_lookup.xlsx")
 
 

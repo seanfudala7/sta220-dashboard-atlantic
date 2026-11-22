@@ -6,23 +6,21 @@
 ########### Part 2: Merge to make Master Dataset ################
 #################################################################
 
+# Prepare for merge
+atlantic_towns <- atlantic_towns |>
+  rename(town = "NAME")
 
-# Crossover table - matching high schools to their respective school districts
+nj_districts <- nj_districts |>
+  rename(district = "NAME")
 
-hs_district <- tribble(
-  ~high_school,    ~district,
-  "Absegami", "Galloway",
-  "Atlantic City", "Atlantic City",
-  "Atlantic County Institute of Technology", "Atlantic Co Vocational",
-  "Buena", "Buena Regional",
-  "Cedar Creek", "Greater Egg Harbor Reg",
-  "Egg Harbor Twp", "Greater Egg Harbor Reg",
-  "Hammonton",     "Hammonton Town",
-  "Mainland", "Mainland Regional",
-  "Oakcrest", "Greater Egg Harbor Reg",
-  "Pleasantville", "Pleasantville City"
-)
+# Prepare for merge
 
+# Created town to district lookup table by merging the high school to district table using nj_towns and nj_districts
 
-# Create town to district lookup table by merging the high school to district table using nj_towns and nj_districts
+# Merge budget-per-student spending and school district information
 
+atlantic_master <- town_district_lookup |>
+  left_join(atlantic_towns, by = "town") |>
+  left_join(nj_districts, by = "district") |>
+  select("town", "high_school", "high_school_district", "district", "geometry.y") |>
+  rename(geometry = "geometry.y")
