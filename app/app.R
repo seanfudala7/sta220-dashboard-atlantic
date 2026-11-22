@@ -21,22 +21,22 @@ benchmark_bps <- mean(budget_per_student$per_student_total)
 
 ui <- fluidPage(
   
-  titlePanel("Go back to school!"),
+  titlePanel("Time for school!"),
   p("For newly certified high school teachers in the Atlantic County region"),
-  p("The decision: what is the ideal school to be placed in?"),
-  
-  selectInput(inputId = "pick", label = "Pick one:", choices = c("choice 1", "choice 2")),
+  p("What is the ideal school to be placed in?"),
   
   h3("Figure 1. Budget per student by school district"),
   plotOutput(outputId = "fig_1"),
-  p("Bar chart displaying budget per student for every school district in Atlantic County. From the NJ Department of Education, 2024."),
+  p("Bar chart displaying budget per student for every school district in Atlantic County. From the NJ Department of Education, 2024. Benchmark of $33407.24 is the average budget per student for all New Jersey school districts."),
+  
+selectInput(inputId = "salarystep", label = "Pick one:", choices = c("ba_step1", "ba15_step1", "ma_step1", "ma15_step1")),
   
   h3("Figure 2. Starting salary by school district"),
   plotOutput(outputId = "fig_2"),
-  p("Map of Atlantic County town boundaries. Labeled with salaries of corresponding high school school district."),
+  p("Map of Atlantic County town boundaries. Shaded by salaries of corresponding high school school district. Buena Regional and Mainland Regional School Districts do not have published salaries for 2023-2024 school year. Greater Egg Harbor Regional High School District uses 2024-2025 data."),
   
   h3("What this dashboard cannot tell you"),
-  p("Limits.")
+  p("This dashboard only uses four cases for salary: bachelor's degree after 1 and 15 years, and master's degree after 1 and 15 years. It does not have the full salary increase between years 1 and 15, and also does not include information on doctorate degrees. It does not include other factors that may affect salary, such as additional certifications or union negotiations.")
   
 )
 
@@ -54,24 +54,21 @@ server <- function(input, output) {
            subtitle = "Each school district in Atlantic County is represented by a bar",
            x = "calculated total expenses per student ($)",
            y = "district",
-           caption = "Source: NJ Department of Education, 2024"
+           caption = "Source: NJ Department of Education, Taxpayers' Guide to Education Spending 2023-2024"
       )
     
   })
   
   output$fig_2 <- renderPlot({
     
-    ### UNCOMMENT AFTER CREATING TOWN TO DISTRICT LOOKUP TABLE
-    #fig_02 <- ggplot(atlantic_towns) +
-    #  geom_sf(aes(fill = ALAND), colour = "white") + 
-    #  scale_fill_gradient(low = "white", high = "blue") +
-    #  labs(title = "Starting salary for instructional staff by high school",
-    #     subtitle = "Subtitle",
-    #     caption = "Source: My source"
-    # ) +
-    #  theme_void()
-    #print(fig_02)
-    #ggsave("output/fig02_atlmap.png", fig_02, width = 6.75, height = 4.85)
+    ggplot(atlantic_town_master) +
+      geom_sf(aes(fill = .data[[input$salarystep]]), colour = "white") + 
+      scale_fill_gradient(low = "white", high = "blue", limits = c(50000,NA)) +
+      labs(title = "Starting salary for instructional staff by high school",
+           subtitle = "Each shape is a school district in Atlantic County, NJ",
+           caption = "Source: Teachers' Education Association agreements across districts, 2023-2024"
+      ) +
+      theme_void()
     
   })
   

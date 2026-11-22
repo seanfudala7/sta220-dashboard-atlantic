@@ -13,14 +13,15 @@ atlantic_towns <- atlantic_towns |>
 nj_districts <- nj_districts |>
   rename(district = "NAME")
 
+salary_by_district <- salary_by_district |>
+  rename(high_school_district = "high_school")
+
 # Prepare for merge
 
 # Created town to district lookup table by merging the high school to district table using nj_towns and nj_districts
 
 # Merge budget-per-student spending and school district information
 
-atlantic_master <- town_district_lookup |>
-  left_join(atlantic_towns, by = "town") |>
-  left_join(nj_districts, by = "district") |>
-  select("town", "high_school", "high_school_district", "district", "geometry.y") |>
-  rename(geometry = "geometry.y")
+atlantic_town_master <- atlantic_towns |>
+  left_join(town_district_lookup, by = "town") |>
+  left_join(salary_by_district, by = "high_school_district")

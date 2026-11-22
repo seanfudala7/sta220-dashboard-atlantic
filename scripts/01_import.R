@@ -22,7 +22,7 @@ budget_per_student <- read_excel('data/spending_per_student.xlsx',
                                  col_names = c("county", "district", "district_code","expense_per_stu","outlay_per_stu","grant_per_stu","food_per_stu","bonds_per_stu","sda_per_stu","total_per_stu","daily_enrollment","per_student_total")
 )
 
-# Restrict to Atlantic County high schools
+# Restrict to Atlantic County districts with high schools
 budget_per_student_clean <- budget_per_student |>
   select("county", "district", "district_code", "per_student_total") |>
   filter(county == "Atlantic")
@@ -37,6 +37,8 @@ budget_per_student_clean$per_student_total <- as.numeric(budget_per_student_clea
 
 # Check
 summary(budget_per_student_clean$per_student_total)
+
+
 
 # Benchmark avg. per student in Atlantic County
 benchmark_bps <- mean(budget_per_student_clean$per_student_total)
@@ -68,7 +70,8 @@ dim(nj_districts)
 # Filter to Atlantic County towns
 
 atlantic_towns <- nj_towns |>
-  filter(COUNTYFP == "001") 
+  filter(COUNTYFP == "001") |>
+  select(NAME, geometry)
 
 # Save each one as a GeoPackage (.gpkg) to keep the shapes
 st_write(nj_counties, "data/boundaries/nj_counties.gpkg", delete_dsn = TRUE, quiet = TRUE)
@@ -82,3 +85,5 @@ st_write(nj_districts, "data/boundaries/nj_school_districts.gpkg", delete_dsn = 
 town_district_lookup <- read_excel("data/town_district_lookup.xlsx")
 
 
+# Data source 4: High school teacher salaries by school district for 2023-2024 school year
+salary_by_district <- read_excel("data/atl_district_salaries.xlsx")
