@@ -14,7 +14,11 @@ nj_districts <- nj_districts |>
   rename(district = "NAME")
 
 salary_by_district <- salary_by_district |>
-  rename(high_school_district = "high_school")
+  rename(high_school_district = "high_school") 
+
+# Add percent change column
+salary_by_district <- salary_by_district |>
+  mutate(pct_change_ba_ma = ((ma_step1 - ba_step1) / ba_step1) * 100) 
 
 # Prepare for merge
 

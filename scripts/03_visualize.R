@@ -33,10 +33,9 @@ library(tigris)
 # see 01_import for creation of nj_towns.gpkg 
 nj_towns <- read_sf("data/boundaries/nj_towns.gpkg")
 
-### UNCOMMENT AFTER CREATING TOWN TO DISTRICT LOOKUP TABLE
 fig_02 <- ggplot(atlantic_town_master) +
   geom_sf(aes(fill = ba_step1), colour = "white") + 
-  scale_fill_gradient(low = "white", high = "blue", limits = c(50000,NA)) +
+  scale_fill_gradient(low = "white", high = "green", limits = c(50000,NA)) +
   labs(title = "Starting salary for instructional staff by high school",
      subtitle = "Each shape is a school district in Atlantic County, NJ",
      caption = "Source: Teachers' Education Association agreements across districts, 2023-2024"

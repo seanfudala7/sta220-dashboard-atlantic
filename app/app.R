@@ -21,15 +21,17 @@ benchmark_bps <- mean(budget_per_student$per_student_total)
 
 ui <- fluidPage(
   
-  titlePanel("Time for school!"),
+  titlePanel("Time for school! Making a decision of what Atlantic County schools to apply to."),
   p("For newly certified high school teachers in the Atlantic County region"),
-  p("What is the ideal school to be placed in?"),
-  
+  p("Which schools should teachers apply to when searching for their first placement, based on starting salary and district budgets?"),
+
+selectInput(inputId = "district", label = "Pick one:", choices = c("Atlantic City", "Buena Regional", "Egg Harbor Twp", "Greater Egg Harbor Reg", "Hammonton Town", "Mainland Regional", "Pleasantville City")),
+   
   h3("Figure 1. Budget per student by school district"),
   plotOutput(outputId = "fig_1"),
   p("Bar chart displaying budget per student for every school district in Atlantic County. From the NJ Department of Education, 2024. Benchmark of $33407.24 is the average budget per student for all New Jersey school districts."),
   
-selectInput(inputId = "salarystep", label = "Pick one:", choices = c("ba_step1", "ba15_step1", "ma_step1", "ma15_step1")),
+selectInput(inputId = "salarystep", label = "Pick one:", choices = c("ba_step1", "ba15_step1", "ma_step1", "ma15_step1", "pct_change_ba_ma")),
   
   h3("Figure 2. Starting salary by school district"),
   plotOutput(outputId = "fig_2"),
@@ -47,8 +49,8 @@ server <- function(input, output) {
   
   output$fig_1 <- renderPlot({
     
-    ggplot(budget_per_student, aes(x = per_student_total, y = fct_reorder(district, per_student_total))) + 
-      geom_col() + 
+    ggplot(budget_per_student_clean, aes(x = per_student_total, y = fct_reorder(district, per_student_total))) + 
+      geom_col(aes(fill = district  == input$district)) + 
       geom_vline(xintercept = benchmark_bps, linetype = "dashed") +
       labs(title = "Budget per student by Atlantic County school district",
            subtitle = "Each school district in Atlantic County is represented by a bar",
@@ -63,7 +65,7 @@ server <- function(input, output) {
     
     ggplot(atlantic_town_master) +
       geom_sf(aes(fill = .data[[input$salarystep]]), colour = "white") + 
-      scale_fill_gradient(low = "white", high = "blue", limits = c(50000,NA)) +
+      scale_fill_gradient(low = "white", high = "green", limits = c(50000,NA)) +
       labs(title = "Starting salary for instructional staff by high school",
            subtitle = "Each shape is a school district in Atlantic County, NJ",
            caption = "Source: Teachers' Education Association agreements across districts, 2023-2024"
